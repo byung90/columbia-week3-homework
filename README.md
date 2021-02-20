@@ -15,7 +15,7 @@ Screenshot:
 * JS
 
 ## Link to Deployed Site
+https://byung90.github.io/columbia-week3-homework/
 
-## License
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
