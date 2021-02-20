@@ -6,7 +6,7 @@ function writePassword() {
   var password = generatePassword();
   var passwordText = document.querySelector("#password");
 
-  passwordText.value = password;
+  passwordText.value = password || "";
 }
 
 // Add event listener to generate button
@@ -14,6 +14,7 @@ generateBtn.addEventListener("click", writePassword);
 
 // Generate Password and Check
 function generatePassword() {
+  var cancel = false;
   var passwordLength;
   var includeLowercase = false;
   var includeUppercase = false;
@@ -23,19 +24,30 @@ function generatePassword() {
 
   //Prompt for password length
   var validPasswordLength = false;
-  while (!validPasswordLength) {
+  while (validPasswordLength === false && cancel === false) {
     var passwordLengthTemp;
     passwordLengthTemp = window.prompt("Enter password length (min 8 characters, max 128 characters");
-    if (/\d/.test(passwordLengthTemp) && passwordLengthTemp >= 8 && passwordLengthTemp <= 128) {
-      passwordLength = passwordLengthTemp;
-      validPasswordLength = true;
+    if (passwordLengthTemp != null) {
+      if (/\d/.test(passwordLengthTemp) && passwordLengthTemp >= 8 && passwordLengthTemp <= 128) {
+        passwordLength = passwordLengthTemp;
+        validPasswordLength = true;
+      }
+    }
+    else {
+      cancel = true;
     }
   }
 
   //Prompt for lowercase
   var includeLowercaseTemp;
-  while (includeLowercaseTemp !== "T" && includeLowercaseTemp !== "F") {
-    includeLowercaseTemp = window.prompt("Requires Lowercase? (T/F)").toUpperCase();
+  while (includeLowercaseTemp !== "T" && includeLowercaseTemp !== "F" && cancel === false) {
+    includeLowercaseTemp = window.prompt("Requires Lowercase? (T/F)");
+    if (includeLowercaseTemp !== null) {
+      includeLowercaseTemp = includeLowercaseTemp.toUpperCase();
+    }
+    else {
+      cancel = true;
+    }
   }
 
   if (includeLowercaseTemp === "T") {
@@ -44,8 +56,14 @@ function generatePassword() {
 
   //Prompt for uppercase
   var includeUppercaseTemp;
-  while (includeUppercaseTemp !== "T" && includeUppercaseTemp !== "F") {
-    includeUppercaseTemp = window.prompt("Requires Uppercase? (T/F)").toUpperCase();
+  while (includeUppercaseTemp !== "T" && includeUppercaseTemp !== "F" && cancel === false) {
+    includeUppercaseTemp = window.prompt("Requires Uppercase? (T/F)");
+    if (includeUppercaseTemp !== null) {
+      includeUppercaseTemp = includeUppercaseTemp.toUpperCase();
+    }
+    else {
+      cancel = true;
+    }
   }
 
   if (includeUppercaseTemp === "T") {
@@ -54,8 +72,14 @@ function generatePassword() {
 
   //Prompt for numeric value
   var includeNumberTemp;
-  while (includeNumberTemp !== "T" && includeNumberTemp !== "F") {
-    includeNumberTemp = window.prompt("Requires Numberic Value? (T/F)").toUpperCase();
+  while (includeNumberTemp !== "T" && includeNumberTemp !== "F" && cancel === false) {
+    includeNumberTemp = window.prompt("Requires Number? (T/F)");
+    if (includeNumberTemp !== null) {
+      includeNumberTemp = includeNumberTemp.toUpperCase();
+    }
+    else {
+      cancel = true;
+    }
   }
 
   if (includeNumberTemp === "T") {
@@ -64,14 +88,25 @@ function generatePassword() {
 
   //Prompt for special characters
   var includeSpecialCharacterTemp;
-  while (includeSpecialCharacterTemp !== "T" && includeSpecialCharacterTemp !== "F") {
-    includeSpecialCharacterTemp = window.prompt("Requires Special Character? (T/F)").toUpperCase();
+  while (includeSpecialCharacterTemp !== "T" && includeSpecialCharacterTemp !== "F" && cancel === false) {
+    includeSpecialCharacterTemp = window.prompt("Requires Special Character? (T/F)");
+    if (includeSpecialCharacterTemp !== null) {
+      includeSpecialCharacterTemp = includeSpecialCharacterTemp.toUpperCase();
+    }
+    else {
+      cancel = true;
+    }
   }
 
   if (includeSpecialCharacterTemp === "T") {
     includeSpecialCharacter = true;
   }
 
+
+  if (cancel === true) {
+    window.alert("User cancelled the generator.");
+    return;
+  }
   //Create password with valid length and check validity
   var isValidPassword = [false, false, false, false];
 
